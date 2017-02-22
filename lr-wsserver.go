@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	LISTENADDR = "localhost:1234"
+	LISTENADDR = ":1234"
 )
 
 var(
@@ -27,7 +27,7 @@ func getHeartBeat(ws *websocket.Conn) {
 	} else {
 		log.Println("client is no in")
 		clientMap[clientStr] = ws
-		sendBroadcast(nil, fmt.Sprintf("Hello, %s join\n", clientStr))
+		go sendBroadcast(nil, fmt.Sprintf("Hello, %s join\n", clientStr))
 		for ck, _ := range clientMap {
 			log.Println("c in map: ", ck)
 		}
@@ -61,7 +61,7 @@ func getHeartBeat(ws *websocket.Conn) {
 
 		log.Println("[info] Sending to client:" + msg)
 
-		sendBroadcast(ws, msg)
+		go sendBroadcast(ws, msg)
 	}
 }
 
@@ -89,7 +89,7 @@ func main() {
 
 	http.HandleFunc("/cm", getClientMap)
 
-	if err := http.ListenAndServe(":1234", nil); err != nil {
+	if err := http.ListenAndServe(LISTENADDR, nil); err != nil {
 		log.Fatal("ListenAndServer:", err)
 	}
 }
