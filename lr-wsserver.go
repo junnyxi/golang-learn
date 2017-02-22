@@ -73,7 +73,7 @@ func sendBroadcast(conn *websocket.Conn, msg string){
 		}
 		log.Printf("send => %s ", ck)
 
-		websocket.Message.Send(client, msg)
+		go websocket.Message.Send(client, msg)
 	}
 }
 
