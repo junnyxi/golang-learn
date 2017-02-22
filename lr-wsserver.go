@@ -10,14 +10,14 @@ import (
 )
 
 const (
-	LISTENADDR = ":1234"
+	LISTENADDR = ":9527"
 )
 
 var(
 	clientMap map[string]*websocket.Conn
 )
 
-func getHeartBeat(ws *websocket.Conn) {
+func getChat(ws *websocket.Conn) {
 
 	clientStr := ws.Request().RemoteAddr
 	fmt.Println("[debug] client a:"+ clientStr)
@@ -67,6 +67,7 @@ func getHeartBeat(ws *websocket.Conn) {
 
 func sendBroadcast(conn *websocket.Conn, msg string){
 	for ck, client := range clientMap {
+		// maybe do not send to self client
 		if conn == client {
 			log.Println("Continue....")
 //			continue
@@ -85,7 +86,7 @@ func getClientMap(w http.ResponseWriter, r *http.Request){
 
 func main() {
 	clientMap =  make(map[string]*websocket.Conn)
-	http.Handle("/", websocket.Handler(getHeartBeat))
+	http.Handle("/", websocket.Handler(getChat))
 
 	http.HandleFunc("/cm", getClientMap)
 
