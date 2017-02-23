@@ -18,3 +18,12 @@ golang.org/x/net/websocket
 1. 所有客户端连接通过一个map保存，当客户端刷新、离开时，从map中移除；
 2. 服务端收到客户端发送消息，遍历整个map，广播到所有连接中的客户端
 3. 广播消息通过goroutine发送
+
+## a joke
+> This package currently lacks some features found in an alternative and more actively maintained WebSocket package:
+```
+https://godoc.org/github.com/gorilla/websocket
+```
+
+这个包中的很棒的demo：
+https://github.com/gorilla/websocket/tree/master/examples/chat
